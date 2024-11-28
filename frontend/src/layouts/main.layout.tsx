@@ -18,7 +18,7 @@ export default function MainLayout() {
                 menu && <Menu />
             }
             <Navbar />
-            <main className="w-full h-full">
+            <main className="w-full h-full relative">
                 <Outlet />
             </main>
         </main>

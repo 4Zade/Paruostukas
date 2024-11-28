@@ -44,7 +44,7 @@ userSchema.pre('save', async function (next) {
     } catch (err) {
         next(err);
     }
-})
+});
 
 userSchema.methods.verifyPassword = async function(password: string): Promise<boolean> {
     return await bcrypt.compare(password, this.password);

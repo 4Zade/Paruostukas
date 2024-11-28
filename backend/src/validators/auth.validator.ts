@@ -31,7 +31,6 @@ class AuthValidator {
         .notEmpty()
         .withMessage("Prašome pateikti slaptažodį.")
         .custom((value, { req }) => {
-            console.log(value, req.body.password);
             if (value !== req.body.password) {
             throw new Error("Slaptažodžiai nesutampa.");
             }

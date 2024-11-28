@@ -46,15 +46,21 @@ export default function Navbar() {
             </section>
 
             <section className="w-min h-full flex items-center ~gap-2/6">
-                <Link to="/transakcijos" className="w-8 h-8 rounded-full grid place-items-center relative group">
-                    <div className="w-full h-full bg-zinc-800 bg-opacity-20 absolute rounded-full group-hover:scale-100 scale-0 transition-transform"></div>
-                    <Icon icon="tabler:receipt" className="w-6 h-6 z-10" />
-                </Link>
+                {
+                    user
+                    &&
+                    <>
+                        <Link to="/transakcijos" className="w-8 h-8 rounded-full grid place-items-center relative group">
+                            <div className="w-full h-full bg-zinc-800 bg-opacity-20 absolute rounded-full group-hover:scale-100 scale-0 transition-transform"></div>
+                            <Icon icon="tabler:receipt" className="w-6 h-6 z-10" />
+                        </Link>
 
-                <Link to="/krepselis" className="w-8 h-8 rounded-full grid place-items-center relative group">
-                    <div className="w-full h-full bg-zinc-800 bg-opacity-20 absolute rounded-full group-hover:scale-100 scale-0 transition-transform"></div>
-                    <Icon icon="tabler:basket" className="w-6 h-6 z-10" />
-                </Link>
+                        <Link to="/krepselis" className="w-8 h-8 rounded-full grid place-items-center relative group">
+                            <div className="w-full h-full bg-zinc-800 bg-opacity-20 absolute rounded-full group-hover:scale-100 scale-0 transition-transform"></div>
+                            <Icon icon="tabler:basket" className="w-6 h-6 z-10" />
+                        </Link>
+                    </>
+                }
 
                 {
                     user

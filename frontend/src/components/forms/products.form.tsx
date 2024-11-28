@@ -18,10 +18,13 @@ export default function ProductForm() {
     const { register, handleSubmit, setError, clearErrors, setValue, formState: { errors } } = useForm();
     const { success } = useAlert();
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     const onDrop = (acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
-            setSelectedImage(acceptedFiles[0]);
+            const file = acceptedFiles[0];
+            setSelectedImage(file);
+            setImagePreview(URL.createObjectURL(file)); // Generate a preview URL
         }
     };
 
@@ -73,6 +76,7 @@ export default function ProductForm() {
         setValue('description', '');
         setValue('price', '');
         setSelectedImage(null);
+        setImagePreview(null); // Clear the image preview
     }
 
     const onFocus = (input: string) => {
@@ -82,7 +86,7 @@ export default function ProductForm() {
 
     return (
         <form className="w-min h-min px-8 py-4 bg-slate-100 rounded-lg">
-            <h1 className="text-2xl font-bold text-center">Prisijunkite</h1>
+            <h1 className="text-2xl font-bold text-center">Sukutkite produktą!</h1>
 
             <p className="text-sm w-full h-7 text-red-400">{errors.global?.message as string}</p>
 
@@ -147,8 +151,8 @@ export default function ProductForm() {
                     }`}
                 >
                     <input {...getInputProps()} />
-                    {selectedImage ? (
-                        <p>{selectedImage.name}</p>
+                    {imagePreview ? (
+                        <img src={imagePreview} alt="Preview" className="max-h-40 object-contain" />
                     ) : (
                         <p>Vilkite failą arba spustelėkite, kad įkeltumėte nuotrauką</p>
                     )}

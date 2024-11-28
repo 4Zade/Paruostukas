@@ -5,21 +5,32 @@ import axios from "axios";
 import ProductProps from "../../types/product.types";
 import { useAuth } from "../../contexts/auth.context";
 import { useCart } from "../../contexts/cart.context";
+import { useAlert } from "../../contexts/alert.context";
 
 export default function ProductCard({ product }: { product: ProductProps }) {
     const [clicked, setClicked] = useState(false);
     const [liked, setLiked] = useState(0);
+    const { error } = useAlert();
+    const [favClickTimeout, setFavClickTimeout] = useState(false);
     const { user } = useAuth();
     const { fetchCart } = useCart();
-    let favoriteClickTimeout: ReturnType<typeof setTimeout> | null = null;
+    
+
+    useEffect(() => {
+        console.log(favClickTimeout);
+    }, [clicked])
 
     const favoriteClick = async (event: React.MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
 
-        if (favoriteClickTimeout) {
-            console.log("Rate-limited: Please wait before clicking again.");
+        if (favClickTimeout) {
+            error("Palaukite prieš spaudžiant dar karta!");
             return;
+        }
+
+        if (!user) {
+            error("Prisijunkite, kad galėtumėte įvertinti!");
         }
         
         try {
@@ -30,22 +41,23 @@ export default function ProductCard({ product }: { product: ProductProps }) {
                 withCredentials: true 
             });
 
+            setClicked(!clicked);
+
             if (res.data.action === "added") {
                 setLiked(liked + 1);
             }
             else {
                 setLiked(liked - 1);
             }
-
-            setClicked(!clicked);
         }
         catch (err: unknown) {
             console.error(err);
         }
         finally {
-            favoriteClickTimeout = setTimeout(() => {
-                favoriteClickTimeout = null;
-            }, 1000);
+            setFavClickTimeout(true);
+            setTimeout(() => {
+                setFavClickTimeout(false);
+            }, 500);
         }
     }
 

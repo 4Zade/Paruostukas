@@ -101,6 +101,13 @@ class ProductController {
                 { $set: fieldsToUpdate }
             )
 
+            if (fieldsToUpdate.imageUrl) {
+                await Product.updateOne(
+                    { _id: id },
+                    { $set: { image: fieldsToUpdate.imageUrl } }
+                )
+            }
+
             const updated = await Product.findById(id);
 
             res.status(200).json({

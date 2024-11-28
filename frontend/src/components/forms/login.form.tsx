@@ -72,7 +72,22 @@ export default function LoginForm() {
                 Slaptažodis
                 <section>
                     <div className="w-full p-2 rounded-lg flex items-center gap-2 bg-slate-200">
-                        <Icon icon="tabler:key" className={`w-6 h-6 ${errors.password?.message ? 'text-red-400 animate-shake' : ''}`} />
+                        <div className="w-6 h-6 relative group">
+                            <Icon icon="tabler:key" className={`w-6 h-6 ${errors.password?.message ? 'text-red-400 animate-shake' : ''}`} />
+
+                            <section className="w-min h-min hidden group-hover:block absolute left-1/2 -translate-x-1/2 top-10 z-10">
+                                <div className="w-min h-min px-2 py-1 bg-slate-200 whitespace-nowrap text-sm rounded-lg">
+                                    <h1>Slaptažodis turi atitikti šiuos kriterijus:</h1>
+                                    <ul className="list-disc ml-8">
+                                        <li>8 simboliai</li>
+                                        <li>1 didžioji raide</li>
+                                        <li>1 mazoji raide</li>
+                                        <li>1 skaičius</li>
+                                        <li>1 specialusis simbolis</li>
+                                    </ul>
+                                </div>
+                            </section>
+                        </div>
                         <input 
                             type={visible ? 'text' : 'password'} 
                             placeholder="Slaptažodis"
@@ -84,7 +99,9 @@ export default function LoginForm() {
                             <Icon icon={visible ? 'tabler:eye-closed' : 'tabler:eye'} className="w-6 h-6" />
                         </button>
                     </div>
-                    <p className="text-sm w-full h-7 text-red-400">{errors.password?.message as string}</p>
+                    <p className="text-sm w-full h-7 text-red-400 flex items-center">
+                        {errors.password?.message as string}
+                    </p>
                 </section>
             </label>
 

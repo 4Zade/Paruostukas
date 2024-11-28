@@ -7,6 +7,7 @@ import { useAuth } from "../../contexts/auth.context";
 import { useForm } from "react-hook-form";
 import { useCart } from "../../contexts/cart.context";
 import { useAlert } from "../../contexts/alert.context";
+import { useDropzone } from "react-dropzone";
  
 interface ProductFormProps {
     title: string;
@@ -19,13 +20,14 @@ export default function ProductPage() {
     const navigate = useNavigate();
     const product = useLoaderData() as ProductProps;
     const { user } = useAuth();
-    const { success } = useAlert();
+    const { success, error } = useAlert();
     const { fetchCart } = useCart();
     const { register, handleSubmit, setError, clearErrors, setValue, formState: { errors } } = useForm();
     const [clicked, setClicked] = useState(false);
     const [liked, setLiked] = useState(0);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
-    let favoriteClickTimeout: ReturnType<typeof setTimeout> | null = null;
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [favClickTimeout, setFavClickTimeout] = useState(false);
     const location = useLocation().pathname.split('/').pop();
 
     useEffect(() => {
@@ -35,17 +37,21 @@ export default function ProductPage() {
             setValue("price", product.price);
             setValue("description", product.description);
         }
-    }, [location])
+    }, [location, product])
 
     const favoriteClick = async (event: React.MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
 
-        if (favoriteClickTimeout) {
-            console.log("Rate-limited: Please wait before clicking again.");
+        if (favClickTimeout) {
+            error("Palaukite prieš spaudžiant dar karta!");
             return;
         }
         
+        if (!user) {
+            error("Prisijunkite, kad galėtumėte įvertinti!");
+        }
+
         try {
             const token = localStorage.getItem("authToken");
 
@@ -67,9 +73,10 @@ export default function ProductPage() {
             console.error(err);
         }
         finally {
-            favoriteClickTimeout = setTimeout(() => {
-                favoriteClickTimeout = null;
-            }, 1000);
+            setFavClickTimeout(true);
+            setTimeout(() => {
+                setFavClickTimeout(false);
+            }, 500);
         }
     }
 
@@ -158,6 +165,22 @@ export default function ProductPage() {
         window.history.back();
     }
 
+
+    const onDrop = (acceptedFiles: File[]) => {
+        if (acceptedFiles.length > 0) {
+            const file = acceptedFiles[0];
+            setSelectedImage(file);
+            setImagePreview(URL.createObjectURL(file)); // Generate a preview URL
+        }
+    };
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        accept: { "image/*": [] },
+        maxFiles: 1,
+        onDrop,
+    });
+
+
     useEffect(() => {
         if (product.favorites.includes(user?.username as string)) { // Change this
             setClicked(true);
@@ -168,9 +191,56 @@ export default function ProductPage() {
     return (
         <main className="w-full h-full md:h-min flex flex-col gap-4 relative sm:grid grid-cols-2 2xl:grid-cols-3 place-items-center ~md/xl:~mt-10/20 px-8">
             <section className="w-full h-min sm:col-span-2 md:col-span-1 sm:w-1/2 md:w-full">
-                <div className="w-full h-min relative grid place-items-center">
-                    <img src={product.image ? `http://localhost:7000${product.image}` : "https://via.placeholder.com/300x300"} className="w-full object-cover aspect-square rounded-xl" />
-                </div>
+            <div
+        className={`w-full h-min relative grid place-items-center ${location === "redaguoti" ? "dropzone" : ""}`}
+        onDragOver={(e) => {
+            if (location === "redaguoti") e.preventDefault();
+        }}
+        onDrop={(e) => {
+            if (location === "redaguoti") {
+                e.preventDefault();
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith("image/")) {
+                    setSelectedImage(file);
+                }
+            }
+        }}
+    >
+        {/* Show the uploaded or old image */}
+        <img
+            src={
+                selectedImage
+                    ? URL.createObjectURL(selectedImage)
+                    : product.image
+                    ? `http://localhost:7000${product.image}`
+                    : "https://via.placeholder.com/300x300"
+            }
+            className="w-full object-cover aspect-square rounded-xl"
+            alt="Product"
+        />
+
+        {/* Show the placeholder text if it's a dropzone and no image is uploaded */}
+        {location === "redaguoti" && !selectedImage && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 text-white rounded-xl">
+                Drag and drop an image here or click to upload a new photo
+            </div>
+        )}
+
+        {/* Allow click-to-upload functionality */}
+        {location === "redaguoti" && (
+            <input
+                type="file"
+                accept="image/*"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                        setSelectedImage(file);
+                    }
+                }}
+            />
+        )}
+    </div>
             </section>
 
             <section className="w-full h-auto flex flex-col gap-8 justify-center 2xl:col-span-2 sm:col-span-2 md:col-span-1">

@@ -6,8 +6,10 @@ import { TransactionProps } from "../../pages/transactions.page";
 
 
 export default function TransactionItem({ transaction }: { transaction: TransactionProps }) {
+    const [open, setOpen] = useState(false);
+
     return (
-        <div className="w-full h-min flex flex-col items-center justify-center shadow-lg px-4 py-2 rounded-2xl">
+        <div className="w-full h-min flex flex-col items-center justify-center shadow-lg px-4 py-2 rounded-2xl cursor-pointer select-none" onClick={() => setOpen(!open)}>
             <h1 className="font-semibold">Vardas: <span className="font-normal">{transaction.name}</span></h1>
             <h1 className="font-semibold">Email: <span className="font-normal">{transaction.email}</span></h1>
             <h1 className="font-semibold">Sumokėta: <span className="font-normal">{transaction.total.toFixed(2)}</span></h1>
@@ -15,7 +17,7 @@ export default function TransactionItem({ transaction }: { transaction: Transact
                 {
                     transaction.items.map(item => {
                         return (
-                           <TransactionProductItem key={item._id} productId={item.productId} quantity={item.quantity} />
+                           <TransactionProductItem key={item._id} productId={item.productId} quantity={item.quantity} open={open} />
                         )
                     })
                 }
@@ -24,9 +26,8 @@ export default function TransactionItem({ transaction }: { transaction: Transact
     )
 }
 
-function TransactionProductItem({ productId, quantity }: { productId: string, quantity: number} ) {
+function TransactionProductItem({ productId, quantity, open }: { productId: string, quantity: number, open: boolean} ) {
     const [product, setProduct] = useState<ProductProps | null>(null);
-    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         const getProduct = async () => {
@@ -50,8 +51,8 @@ function TransactionProductItem({ productId, quantity }: { productId: string, qu
     return (
         <li className="flex flex-row items-center justify-between w-min min-w-24">
             <ul className="flex flex-col">
-                <li className="flex flex-col whitespace-nowrap" onClick={() => setOpen(!open)}>
-                    <header className="flex items-center gap-1 cursor-pointer font-bold">
+                <li className="flex flex-col whitespace-nowrap">
+                    <header className="flex items-center gap-1 font-bold">
                         <Icon icon="tabler:chevron-right" className="w-4 h-4" />
                         {product && product.title}
                     </header>
