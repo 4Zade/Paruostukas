@@ -11,6 +11,8 @@ const productsLoader = async () => {
         return res.data.products;
     }
     catch (err: unknown) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         if (err.response.auth === false) {
             window.location.href = "/";
             localStorage.removeItem("authToken");

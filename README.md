@@ -1,25 +1,85 @@
-## API Documentation
-### Authentication routes:
+# Paruoštukas
+## Pradžia
+Šis projektas yra full stack aplikacija sukurta naudojant ReactJS ir ExpressJS, rašyti su TypeScript.
 
-- `POST /api/auth/register` - Registers user.
-- `POST /api/auth/login` - Logs user in.
+## Turinys
+- [Naudojamos technologijos](#naudojamos-technologijos)
+- [Reikalavimai](#reikalavimai)
+- [Instaliacija](#instaliacija)
+- [Naudojimasis](#naudojimasis)
+- [API Dokumentacija](#api-dokumentacija)
 
-### User routes
+## Naudojamos technologijos
+- **Frontent:** ReactJS (v18 | TS), TailwindCSS (v3),
+- **Backend:** NodeJS, ExpressJS (TS),
+- **Database:** MongoDB,
+- **Authentication:** JWT-Based
 
-- `DELETE /api/users` - Deletes user account.
+## Reikalavimai
+Įsitikinkite, kad turite:
+- **NodeJS** (v16 ar naujesnę)
 
-### Product routes
+## Instaliacija
+### Klonuok repozirotija
+```bash
+git clone https://github.com/4Zade/Paruostukas.git
+cd Paruostukas
+```
 
-- `GET /api/products` - Get all products.
-- `POST /api/products` - Create a new product.
-- `GET /api/products/:id` - Get a single product.
-- `PUT /api/products/:id` - Edit a single product.
-- `DELETE /api/products/:id` - Delete a single product.
-- `POST /api/products/:id/favorite` - Add product to favorites.
+### Frontend paleidimas
+```bash
+cd frontend
+npm i
+npm run dev
+```
 
-### Cart routes
+### Backend paleidimas
+```bash
+cd backend
+npm i
+npm run dev
+```
 
-- `GET /api/cart` - Get all user cart items.
-- `DELETE /api/cart` - Clear users cart.
-- `POST /api/cart/:id` - Add product to users cart.
-- `DELETE /api/cart/:id` - Remove product from cart.
+### Env failas
+```env
+MONGO_URI=your_mongo_uri
+
+JWT_ACCESS_SECRET=your_jwt-secret
+
+PORT=7000
+```
+
+## Naudojimasis
+### Prieiga prie paleisto puslapio:
+- **Frontend:** http://localhost:5173
+- **Backend:** http://localhost:7000
+
+
+## API Dokumentacija
+### Autentifikacija:
+
+- `POST /api/auth/register` - Priregistruoti vartotoją.
+- `POST /api/auth/login` - Prijungti vartotoją.
+
+### Produktai:
+
+- `GET /api/products` - Gauti visus produktus.
+- `POST /api/products` - Sukurti produktą.
+- `GET /api/products/:id` - Gauti vieną produktą pagal produkto ID.
+- `PUT /api/products/:id` - Redaguoti vieną produktą pagal jo ID.
+- `DELETE /api/products/:id` - Ištrinti vieną produktą pagal jo ID.
+- `POST /api/products/:id/favorite` - Pridėti produktą į megstamiausius.
+
+### Krepšelis:
+
+- `GET /api/cart` - Gauti savo krpešelį.
+- `DELETE /api/cart` - Išvalyti savo krepšelį.
+- `POST /api/cart/:id` - Pridėti produktą į savo krepšelį.
+- `DELETE /api/cart/:id` - Pašalinti 1 produktą iš savo krepšelio.
+- `DELETE /api/cart/:id/all` - Ištrinti 1 produktą iš krepšelio.
+
+### Transakcijos:
+
+- `GET /api/transactions` - Gauti visas transakcijas.
+- `POST /api/transactions` - Sukurti transakcija (pirkti).
+- `GET /api/transactions/:id` - Gauti vieną transakcija.

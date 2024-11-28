@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
 import { useAlert } from "../../contexts/alert.context";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/cart.context";
@@ -9,7 +8,7 @@ import { useAuth } from "../../contexts/auth.context";
 
 export default function CheckoutForm() {
     const navigate = useNavigate();
-    const { register, handleSubmit, setError, clearErrors, setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm();
     const { success } = useAlert();
     const { total, cart, clearCart } = useCart();
     const { user } = useAuth();

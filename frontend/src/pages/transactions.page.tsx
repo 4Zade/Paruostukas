@@ -27,7 +27,9 @@ export default function TransactionsPage() {
                     )
                 }) 
                 : 
-                <h1>no transactions</h1>
+                <div className="w-full h-full grid place-items-center col-span-full">
+                    <h1 className="font-bold text-2xl">Nėra transakcijų</h1>
+                </div>
             }
         </main>
     )

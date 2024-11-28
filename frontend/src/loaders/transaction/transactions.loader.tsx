@@ -12,6 +12,8 @@ const transactionsLoader = async () => {
         return res.data.transactions;
     }
     catch (err: unknown) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         if (err.response.auth === false) {
             window.location.href = "/";
             localStorage.removeItem("authToken");

@@ -16,6 +16,14 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
 
     const token = authHeader.split(" ")[1];
 
+    if (!token || token === "null") {
+        res.status(401).json({
+            auth: false,
+            message: "Vartotojas neprisijungęs."
+        });
+        return;
+    }
+
     try {
         const decoded = TokenService.validateToken(token) as UserProps;
 
@@ -42,6 +50,14 @@ export const requireAdmin = async (req: Request, res: Response, next: NextFuncti
     }
 
     const token = authHeader.split(" ")[1];
+
+    if (!token || token === "null") {
+        res.status(401).json({
+            auth: false,
+            message: "Vartotojas neprisijungęs."
+        });
+        return;
+    }
 
     try {
         const decoded = TokenService.validateToken(token) as UserProps;

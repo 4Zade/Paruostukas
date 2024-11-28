@@ -53,7 +53,7 @@ function TransactionProductItem({ productId, quantity, open }: { productId: stri
             <ul className="flex flex-col">
                 <li className="flex flex-col whitespace-nowrap">
                     <header className="flex items-center gap-1 font-bold">
-                        <Icon icon="tabler:chevron-right" className="w-4 h-4" />
+                        <Icon icon="tabler:chevron-right" className={`w-4 h-4 transition-transform ${open && "rotate-90"}`} />
                         {product && product.title}
                     </header>
                     <ul className={`ml-8 ${open ? 'block' : 'hidden'}`}>
