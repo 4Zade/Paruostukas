@@ -19,7 +19,7 @@ export default function TransactionsPage() {
     }, [transactions])
 
     return (
-        <main className="w-full h-min grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-auto gap-4 px-8">
+        <main className="w-full h-min grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-auto gap-4 px-8 py-4">
             {
                 transactions.length ? transactions.map(item => {
                     return (

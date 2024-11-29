@@ -52,7 +52,7 @@ export default function RegisterForm() {
     }
 
     return (
-        <form className="w-min h-min px-8 py-4 bg-slate-100 rounded-lg">
+        <form className="w-min h-min px-8 py-4 md:bg-slate-100 rounded-lg">
             <h1 className="text-2xl font-bold text-center">Registruokis!</h1>
 
             <p className="text-sm w-full h-7 text-red-400">{errors.global?.message as string}</p>

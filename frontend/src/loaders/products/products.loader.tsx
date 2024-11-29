@@ -1,14 +1,20 @@
 import axios from "axios";
+import { LoaderFunctionArgs } from "react-router-dom";
 
-const productsLoader = async () => {
+const productsLoader = async ({ request }: LoaderFunctionArgs) => {
+    const url = new URL(request.url);
+    const searchParams = url.searchParams;
+
+    const page = searchParams.get("page") || "1";
+
     try {
         const token = localStorage.getItem("authToken");
 
-        const res = await axios.get("http://localhost:7000/api/products", {
+        const res = await axios.get("http://localhost:7000/api/products?page=" + page + "&limit=24", {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true 
         });
-        return res.data.products;
+        return res.data;
     }
     catch (err: unknown) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

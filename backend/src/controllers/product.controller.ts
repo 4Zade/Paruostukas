@@ -6,7 +6,7 @@ import { UserProps } from "../models/user.schema";
 
 class ProductController {
     public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
-        const { limit = 20, page = 1 } = req.query;
+        const { limit = 24, page = 1 } = req.query;
     
         try {
             const parsedLimit = Number(limit);

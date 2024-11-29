@@ -14,11 +14,6 @@ export default function ProductCard({ product }: { product: ProductProps }) {
     const [favClickTimeout, setFavClickTimeout] = useState(false);
     const { user } = useAuth();
     const { fetchCart } = useCart();
-    
-
-    useEffect(() => {
-        console.log(favClickTimeout);
-    }, [clicked])
 
     const favoriteClick = async (event: React.MouseEvent) => {
         event.preventDefault();
@@ -97,7 +92,7 @@ export default function ProductCard({ product }: { product: ProductProps }) {
                 <h1 className="text-sm sm:text-base truncate w-max-0">{product.title}</h1>
 
                 <footer className="w-full flex items-center justify-between">
-                    <h1 className="text-base md:text-xl font-bold flex items-center">{product.price}<span className="text-sm">€</span></h1>
+                    <h1 className="text-base md:text-xl font-bold flex items-center">{product.price.toFixed(2)}<span className="text-sm">€</span></h1>
 
                     <div className="flex items-center gap-2">
                         <p>{liked}</p>

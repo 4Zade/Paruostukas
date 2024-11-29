@@ -23,9 +23,25 @@ class TransactionValidator {
             .isFloat()
             .withMessage("CVV privalo būti skaičius."),
 
-        body('expires')
+            body('expires')
             .notEmpty()
-            .withMessage("Galiojimo pabaigos data privaloma"),
+            .withMessage("Galiojimo pabaigos data privaloma.")
+            .matches(/^\d{2}\/(0[1-9]|1[0-2])$/
+)
+            .withMessage("Galiojimo pabaigos data turi būti formatu YY/MM.")
+            .custom((value) => {
+                const [year, month] = value.split('/').map(Number);
+                const now = new Date();
+                const currentYear = Number(now.getFullYear().toString().slice(-2));
+                const currentMonth = now.getMonth() + 1;
+
+                console.log(year, currentYear, month, currentMonth);
+
+                if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                    throw new Error("Galiojimo pabaigos data jau praėjo.");
+                }
+                return true;
+            }),
 
         (req: Request, res: Response, next: NextFunction): Promise<void> => {
         const errors = validationResult(req);

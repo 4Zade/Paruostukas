@@ -6,8 +6,8 @@ export default function CheckoutPage() {
     const { cart, addQuantity, removeQuantity, removeItem } = useCart();
 
     return (
-        <main className="w-full h-full flex flex-col md:flex-row pb-6 md:px-0 md:pr-6">
-            <section className="w-full grow hidden md:flex flex-col gap-4 px-6">
+        <main className="w-full h-[90%] flex flex-col md:flex-row pb-6 md:px-0 md:pr-6">
+            <section className="w-full h-full hidden md:flex flex-col gap-4 px-6 py-6 overflow-y-scroll">
                 {
                     cart && cart.items.length > 0 ? cart.items.map(item => {
                         return (
@@ -19,7 +19,7 @@ export default function CheckoutPage() {
                 }
             </section>
 
-            <section className="w-full md:w-1/3 bg-slate-100 rounded-2xl">
+            <section className="w-full md:w-1/3 md:bg-slate-100 rounded-2xl">
                 <CheckoutForm />
             </section>
         </main>

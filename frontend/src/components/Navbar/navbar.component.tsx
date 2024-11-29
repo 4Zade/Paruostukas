@@ -11,6 +11,10 @@ export default function Navbar() {
     const [open, setOpen] = useState(false);
     const userRef = useRef<HTMLDivElement>(null);
 
+    const goBack = () => {
+        window.history.back();
+    }
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (userRef.current && !userRef.current.contains(event.target as Node)) {
@@ -26,7 +30,14 @@ export default function Navbar() {
     }, []);
 
     return (
-        <nav className={`w-full ~h-16/20 ~min-h-16/20 flex items-center justify-between ~px-4/6 transition-colors duration-200 z-30 ${menu && "text-white"}`}>
+        <nav className={`w-full ~h-16/20 ~min-h-16/20 flex items-center justify-between ~px-4/6 transition-colors duration-200 relative z-30 ${menu && "text-white"}`}>
+            <div className="w-min h-min absolute -bottom-6 left-4">
+                <button className="~w-8/10 ~h-8/10 rounded-full grid place-items-center relative group" onClick={goBack}>
+                    <div className="w-full h-full bg-zinc-800 bg-opacity-20 absolute rounded-full group-hover:scale-100 scale-0 transition-transform"></div>
+                    <Icon icon="tabler:arrow-left" className="~w-6/8 ~h-6/8 z-10" />
+                </button>
+            </div>
+            
             <section className="w-min h-full flex items-center ~md/2xl:~gap-8/12">
                 <header className="flex items-center ~gap-2/4">
                     <button className="md:hidden w-8 h-8 rounded-full grid place-items-center relative group" onClick={toggleMenu}>

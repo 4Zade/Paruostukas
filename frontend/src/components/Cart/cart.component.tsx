@@ -51,7 +51,7 @@ export default function CartItem({ id, quantity, removeQuantity, addQuantity, re
                 <h3 className="text-sm font-semibold text-gray-800 truncate">
                     {item && item.title}
                 </h3>
-                <span className="text-sm text-gray-500">{item && item.price}€</span>
+                <span className="text-sm text-gray-500">{item && item.price.toFixed(2)}€</span>
             </section>
     
             {/* Quantity Controls */}

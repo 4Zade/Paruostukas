@@ -7,7 +7,7 @@ export default function CartPage() {
 
     return (
         <main className="w-full h-full flex flex-col">
-            <section className="w-full grow flex flex-col gap-4 px-6">
+            <section className="w-full grow flex flex-col gap-4 px-6 py-4">
                 {
                     cart && cart.items.length > 0 ? cart.items.map(item => {
                         return (

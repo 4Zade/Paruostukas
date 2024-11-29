@@ -48,7 +48,7 @@ export default function CheckoutForm() {
     }
 
     return (
-        <form className="w-full h-full px-8 py-4 bg-slate-100 rounded-lg flex flex-col justify-between">
+        <form className="w-full h-full px-8 py-4 md:bg-slate-100 rounded-lg flex flex-col justify-between">
             <main>
                 <h1 className="text-2xl font-bold md:text-center">Atsiskaitymas</h1>
                 <p className="text-sm w-full h-7 text-red-400">{errors.global?.message as string}</p>
